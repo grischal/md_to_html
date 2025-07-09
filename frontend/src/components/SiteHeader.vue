@@ -8,49 +8,34 @@ const cssAffectPage = ref(false)
 
 const fontSize = ref('12')
 const fontSizes = ref([
-  { value: '8' },
-  { value: '9' },
-  { value: '10' },
-  { value: '11' },
-  { value: '12' },
-  { value: '14' },
-  { value: '18' },
-  { value: '24' },
-  { value: '30' },
-  { value: '36' },
-  { value: '48' },
-  { value: '60' },
-  { value: '72' },
-  { value: '96' },
-  { value: 'Custom' },
+  '8',
+  '9',
+  '10',
+  '11',
+  '12',
+  '14',
+  '18',
+  '24',
+  '30',
+  '36',
+  '48',
+  '60',
+  '72',
+  '96',
+  'Custom',
 ])
-watch(
-  fontSize,
-  (fontSize, oldFontSize) => {
-    if (cssAffectPage.value === true && fontSize !== oldFontSize) {
-      document.documentElement.style.setProperty('--user-font-size', `${fontSize}pt`)
-      console.log(!fontSizes.value.includes({ value: fontSize.toString() }))
-      console.log({ value: fontSize.toString() })
-      console.log(fontSizes.value)
-      if (!fontSizes.value.some((size) => size.value === fontSize.toString())) {
-        fontSizes.value.push({ value: fontSize.toString() })
-      }
-      // TODO: maybe add localStorage.setItem('fontSize', size.toString())
+// TODO: maybe add localStorage.setItem('fontSize', size.toString())
+watch(fontSize, (newFontSize, oldFontSize) => {
+  if (newFontSize !== oldFontSize) {
+    if (newFontSize !== 'Custom' && cssAffectPage.value == true) {
+      document.documentElement.style.setProperty('--user-font-size', `${newFontSize}pt`)
     }
-  },
-  // { immediate: true },
-)
-// Text Size Settings //
-// const fontSize = ref(parseFloat(localStorage.getItem('fontSize') || '1'))
-//
-// watch(
-//   fontSize,
-//   (size) => {
-//     document.documentElement.style.setProperty('--user-font-size', `${size}rem`)
-//     localStorage.setItem('fontSize', size.toString())
-//   },
-//   { immediate: true },
-// )
+    if (!fontSizes.value.some((size) => size === newFontSize)) {
+      fontSizes.value.push(newFontSize)
+    }
+  }
+})
+
 const fontFamily = ref('Lexend')
 const fontFamilies = ref([
   {
