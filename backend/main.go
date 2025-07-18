@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os/exec"
 )
 
 var pandocServer string = "http://127.0.0.1:3030"
@@ -52,18 +53,31 @@ func RelayReq(writer http.ResponseWriter, reader *http.Request) {
 
 	htmlRet := SendPost(pandocServer, data)
 
-	css := fmt.Sprintf("background-color:%s; font-family:%s; font-size:%s; letter-spacing:%s; line-height:%s;", cssMap["background-color"], cssMap["font-family"], cssMap["font-size"], cssMap["letter-spacing"], cssMap["line-height"])
+	css := fmt.Sprintf(
+		"background-color:%s; font-family:%s; font-size:%s; letter-spacing:%s; line-height:%s;",
+		cssMap["background-color"],
+		cssMap["font-family"],
+		cssMap["font-size"],
+		cssMap["letter-spacing"],
+		cssMap["line-height"],
+	)
 
 	ret := fmt.Sprintf("<body style=%s>%s</body>", css, htmlRet)
 
 	writer.Write([]byte(ret))
 
 }
+func StartPandocServer() {
+	cmd := exec.Command("./pandoc-server")
+	err := cmd.Run()
+	fmt.Printf("Pandoc Server finished with error: %v", err)
+}
 
 func main() {
 	/*
 		Starts the server which redirects requests
 	*/
+	go StartPandocServer()
 	http.HandleFunc("/", RelayReq)
 	fmt.Printf("Server output is: %s\n", http.ListenAndServe(relayServer, nil))
 
