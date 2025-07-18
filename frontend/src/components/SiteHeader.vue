@@ -1,37 +1,41 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import type { Ref } from 'vue'
 
 // const arrayRange = (start, stop, step) =>
 //   Array.from({ length: (stop - start) / step + 1 }, (value, index) => start + index * step)
 
 const cssAffectPage = ref(false)
 
-const fontSize = ref('12')
-const fontSizes = ref([
-  '8',
-  '9',
-  '10',
-  '11',
-  '12',
-  '14',
-  '18',
-  '24',
-  '30',
-  '36',
-  '48',
-  '60',
-  '72',
-  '96',
-  'Custom',
-])
-// TODO: maybe add localStorage.setItem('fontSize', size.toString())
+const fontSize = ref(localStorage.getItem('fontSize') || '12')
+const fontSizes: Ref<string[]> = ref(
+  localStorage.getItem('fontSizes') || [
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '14',
+    '18',
+    '24',
+    '30',
+    '36',
+    '48',
+    '60',
+    '72',
+    '96',
+    'Custom',
+  ],
+)
 watch(fontSize, (newFontSize, oldFontSize) => {
   if (newFontSize !== oldFontSize) {
+    localStorage.setItem('fontSize', newFontSize)
     if (newFontSize !== 'Custom' && cssAffectPage.value == true) {
       document.documentElement.style.setProperty('--user-font-size', `${newFontSize}pt`)
     }
     if (!fontSizes.value.some((size) => size === newFontSize)) {
       fontSizes.value.push(newFontSize)
+      localStorage.setItem('fontSizes', fontSizes)
     }
   }
 })
@@ -111,7 +115,6 @@ const backgroundColors = ref([
 </script>
 
 <template>
-  <!-- -->
   <header class="header">
     <h3>CSS styling for HTML output:</h3>
     <span>
@@ -121,8 +124,8 @@ const backgroundColors = ref([
     <div class="options">
       Font size:
       <select v-model="fontSize">
-        <option v-for="size in fontSizes" :value="size.value" :key="size.id">
-          {{ size.value }}
+        <option v-for="size in fontSizes" :value="size">
+          {{ size }}
         </option>
       </select>
       <span v-if="fontSize === 'Custom'">
