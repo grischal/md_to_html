@@ -40,41 +40,31 @@ watch(fontSize, (newFontSize, oldFontSize) => {
   }
 })
 
-const fontFamily = ref('Lexend')
-const fontFamilies = ref([
+const fonts = localStorage.getItem('fonts') || [
   {
-    text: 'Lexend',
-    value: 'Lexend',
+    name: 'Lexend',
     url: 'https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap',
   },
   {
-    text: 'Times New Roman',
-    value: 'Times New Roman',
+    name: 'Times New Roman',
     url: 'https://fonts.googleapis.com/css2?family=Times+New+Roman:wght@400;700&display=swap',
   },
   {
-    text: 'Comic Sans MS',
-    value: 'Comic Sans MS',
+    name: 'Comic Sans MS',
     url: 'https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap',
   },
-])
-// document.documentElement.style.setProperty('--user-font-family', fontFamily.value)
-//
-// // Load the font
-// function loadFont(fontName: string, url: string) {
-//   if (!url) return
-//
-//   const existing = document.querySelector(`link[data-font="${fontName}"]`)
-//   if (existing) return // Avoid duplicate loads
-//
-//   const link = document.createElement('link')
-//   link.rel = 'stylesheet'
-//   link.href = url
-//   link.setAttribute('data-font', fontName)
-//   document.head.appendChild(link)
-// }
-//
-const fontColor = ref('#000000')
+]
+
+const availableFonts = ref(fonts)
+const fontFamily = ref(localStorage.getItem('fontFamily') || 'Lexend')
+watch(fontFamily, (newFontFamily, oldFontFamily) => {
+  if (newFontFamily !== oldFontFamily) {
+    const selectedFont = availableFonts.value.find((f) => f.name === newFontFamily)
+    document.documentElement.style.setProperty('--user-font-family', newFontFamily)
+    localStorage.setItem('fontFamily', newFontFamily)
+  }
+})
+
 const fontColors = ref([
   { text: 'Black', value: '#000000' },
   { text: 'Grey', value: '#808080' },
@@ -134,8 +124,8 @@ const backgroundColors = ref([
 
       Font:
       <select v-model="fontFamily">
-        <option v-for="family in fontFamilies" :value="family.value" :key="family.id">
-          {{ family.text }}
+        <option v-for="font in availableFonts" :key="font.name" :style="{ fontFamily: font.name }">
+          {{ font.name }}
         </option>
       </select>
 
