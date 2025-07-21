@@ -65,12 +65,19 @@ watch(fontFamily, (newFontFamily, oldFontFamily) => {
   }
 })
 
+const fontColor = ref('#000000')
 const fontColors = ref([
-  { text: 'Black', value: '#000000' },
-  { text: 'Grey', value: '#808080' },
-  { text: 'Light Grey', value: '#c5c0b9' },
-  { text: 'White', value: '#c5c0b9' },
+  { name: 'Black', value: '#000000' },
+  { name: 'Grey', value: '#808080' },
+  { name: 'Light Grey', value: '#c5c0b9' },
+  { name: 'White', value: '#FFFFFF' },
 ])
+watch(fontColor, (newFontColor, oldFontColor) => {
+  if (newFontColor != oldFontColor) {
+    const selectedColor = fontColors.value.find((f) => f.name === newFontColor)
+    document.documentElement.style.setProperty('--color-text', newFontColor)
+  }
+})
 
 const lineHeight = ref('2')
 const lineHeights = ref([
@@ -112,7 +119,7 @@ const backgroundColors = ref([
       <input type="checkbox" v-model="cssAffectPage" />
     </span>
     <div class="options">
-      Font size:
+      newFontFamily Font size:
       <select v-model="fontSize">
         <option v-for="size in fontSizes" :value="size">
           {{ size }}
@@ -131,8 +138,8 @@ const backgroundColors = ref([
 
       Font Color:
       <select v-model="fontColor">
-        <option v-for="color in fontColors" :value="color.value" :key="color.id">
-          {{ color.text }}
+        <option v-for="color in fontColors" :value="color.value">
+          {{ color.name }}
         </option>
       </select>
 
