@@ -40,7 +40,7 @@ watch(fontSize, (newFontSize, oldFontSize) => {
   }
 })
 
-const fonts = localStorage.getItem('fonts') || [
+const availableFonts = ref([
   {
     name: 'Lexend',
     url: 'https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap',
@@ -53,9 +53,8 @@ const fonts = localStorage.getItem('fonts') || [
     name: 'Comic Sans MS',
     url: 'https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap',
   },
-]
+])
 
-const availableFonts = ref(fonts)
 const fontFamily = ref(localStorage.getItem('fontFamily') || 'Lexend')
 watch(fontFamily, (newFontFamily, oldFontFamily) => {
   if (newFontFamily !== oldFontFamily) {
@@ -65,7 +64,7 @@ watch(fontFamily, (newFontFamily, oldFontFamily) => {
   }
 })
 
-const fontColor = ref('#000000')
+const fontColor = ref(localStorage.getItem('fontColor') || '#000000')
 const fontColors = ref([
   { name: 'Black', value: '#000000' },
   { name: 'Grey', value: '#808080' },
@@ -76,6 +75,7 @@ watch(fontColor, (newFontColor, oldFontColor) => {
   if (newFontColor != oldFontColor) {
     const selectedColor = fontColors.value.find((f) => f.name === newFontColor)
     document.documentElement.style.setProperty('--color-text', newFontColor)
+    localStorage.setItem('fontColor', newFontColor)
   }
 })
 
@@ -102,7 +102,7 @@ const letterSpacings = ref([
   { text: '1.9', value: '1.9' },
   { text: '2', value: '2' },
 ])
-const backgroundColor = ref('#FFFDD0')
+const backgroundColor = ref(localStorage.getItem('backgroundColor') || '#FFFDD0')
 const backgroundColors = ref([
   { name: 'Beige', value: '#FFFDD0' },
   { name: 'White', value: '#FFFFFF' },
@@ -113,6 +113,7 @@ watch(backgroundColor, (newBackgroundColor, oldBackgroundColor) => {
   if (newBackgroundColor != oldBackgroundColor) {
     const selectedColor = backgroundColors.value.find((f) => f.value === newBackgroundColor)
     document.documentElement.style.setProperty('--color-html', newBackgroundColor)
+    localStorage.setItem('backgroundColor', newBackgroundColor)
   }
 })
 </script>
