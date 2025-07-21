@@ -62,7 +62,7 @@ func RelayReq(writer http.ResponseWriter, reader *http.Request) {
 		cssMap["line-height"],
 	)
 
-	ret := fmt.Sprintf("<body style=%s>%s</body>", css, htmlRet)
+	ret := fmt.Sprintf(`<body style="%s">%s</body>`, css, htmlRet)
 
 	writer.Write([]byte(ret))
 
