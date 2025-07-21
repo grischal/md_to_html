@@ -102,17 +102,17 @@ const letterSpacings = ref([
   { text: '1.9', value: '1.9' },
   { text: '2', value: '2' },
 ])
-const backgroundColor = ref(localStorage.getItem('backgroundColor') || '#FFFDD0')
+const backgroundColor = ref(localStorage.getItem('backgroundColor') || '#FFE5B4')
 const backgroundColors = ref([
-  { name: 'Beige', value: '#FFFDD0' },
-  { name: 'White', value: '#FFFFFF' },
   { name: 'Peach', value: '#FFE5B4' },
+  { name: 'White', value: '#FFFFFF' },
+  { name: 'Beige', value: '#FFFDD0' },
   { name: 'Dark Grey', value: '#26292a' },
 ])
 watch(backgroundColor, (newBackgroundColor, oldBackgroundColor) => {
   if (newBackgroundColor != oldBackgroundColor) {
     const selectedColor = backgroundColors.value.find((f) => f.value === newBackgroundColor)
-    document.documentElement.style.setProperty('--color-html', newBackgroundColor)
+    document.documentElement.style.setProperty('--color-background', newBackgroundColor)
     localStorage.setItem('backgroundColor', newBackgroundColor)
   }
 })
