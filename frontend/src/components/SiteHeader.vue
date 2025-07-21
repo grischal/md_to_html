@@ -79,14 +79,21 @@ watch(fontColor, (newFontColor, oldFontColor) => {
   }
 })
 
-const lineHeight = ref('2')
+const lineHeight = ref(localStorage.getItem('lineHeight') || '1.5')
 const lineHeights = ref([
-  { text: '1', value: '1' },
-  { text: '1.5', value: '1.5' },
-  { text: '2', value: '2' },
-  { text: '2.5', value: '2.5' },
-  { text: '3', value: '3' },
+  { name: '1', value: '1' },
+  { name: '1.5', value: '1.5' },
+  { name: '2', value: '2' },
+  { name: '2.5', value: '2.5' },
+  { name: '3', value: '3' },
 ])
+watch(lineHeight, (newLineHeight, oldLineHeight) => {
+  if (newLineHeight != oldLineHeight) {
+    const selectedColor = lineHeights.value.find((f) => f.name === newLineHeight)
+    document.documentElement.style.setProperty('--user-line-height', newLineHeight)
+    localStorage.setItem('lineHeight', newLineHeight)
+  }
+})
 
 const letterSpacing = ref('1')
 const letterSpacings = ref([
