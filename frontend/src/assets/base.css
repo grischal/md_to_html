@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap');
+
 
 /* Variables for the base theme */
 :root {
@@ -7,7 +9,7 @@
   --user-font-size: 12pt;
 
   /* Color Theme Light (Default) */
-  --color-html: #ffffff;
+  --color-html: #FFFDD0;
   --color-background: #f5f5f5;
   --color-text: #1d1d1d;
   --color-shadow: var(--color-text);

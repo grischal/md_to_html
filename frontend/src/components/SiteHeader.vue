@@ -104,67 +104,79 @@ const letterSpacings = ref([
 ])
 const backgroundColor = ref('#FFFDD0')
 const backgroundColors = ref([
-  { text: 'Beige', value: '#FFFDD0' },
-  { text: 'White', value: '#FFFFFF' },
-  { text: 'Peach', value: '#FFE5B4' },
-  { text: 'Dark Grey', value: '#26292a' },
+  { name: 'Beige', value: '#FFFDD0' },
+  { name: 'White', value: '#FFFFFF' },
+  { name: 'Peach', value: '#FFE5B4' },
+  { name: 'Dark Grey', value: '#26292a' },
 ])
+watch(backgroundColor, (newBackgroundColor, oldBackgroundColor) => {
+  if (newBackgroundColor != oldBackgroundColor) {
+    const selectedColor = backgroundColors.value.find((f) => f.value === newBackgroundColor)
+    document.documentElement.style.setProperty('--color-html', newBackgroundColor)
+  }
+})
 </script>
 
 <template>
-  <header class="header">
-    <h3>CSS styling for HTML output:</h3>
-    <span>
-      Affect current page?
-      <input type="checkbox" v-model="cssAffectPage" />
-    </span>
-    <div class="options">
-      newFontFamily Font size:
-      <select v-model="fontSize">
-        <option v-for="size in fontSizes" :value="size">
-          {{ size }}
-        </option>
-      </select>
-      <span v-if="fontSize === 'Custom'">
-        <input v-model.lazy="fontSize" />
+  <div class="container-div">
+    <header class="header">
+      <h3>CSS styling for HTML output:</h3>
+      <span>
+        Affect current page?
+        <input type="checkbox" v-model="cssAffectPage" />
       </span>
+      <div class="options">
+        newFontFamily Font size:
+        <select v-model="fontSize">
+          <option v-for="size in fontSizes" :value="size">
+            {{ size }}
+          </option>
+        </select>
+        <span v-if="fontSize === 'Custom'">
+          <input v-model.lazy="fontSize" />
+        </span>
 
-      Font:
-      <select v-model="fontFamily">
-        <option v-for="font in availableFonts" :key="font.name" :style="{ fontFamily: font.name }">
-          {{ font.name }}
-        </option>
-      </select>
+        Font:
+        <select v-model="fontFamily">
+          <option
+            v-for="font in availableFonts"
+            :key="font.name"
+            :style="{ fontFamily: font.name }"
+          >
+            {{ font.name }}
+          </option>
+        </select>
 
-      Font Color:
-      <select v-model="fontColor">
-        <option v-for="color in fontColors" :value="color.value">
-          {{ color.name }}
-        </option>
-      </select>
+        Font Color:
+        <select v-model="fontColor">
+          <option v-for="color in fontColors" :value="color.value">
+            {{ color.name }}
+          </option>
+        </select>
 
-      Line Height:
-      <select v-model="lineHeight">
-        <option v-for="height in lineHeights" :value="height.value" :key="height.id">
-          {{ height.text }}
-        </option>
-      </select>
+        Line Height:
+        <select v-model="lineHeight">
+          <option v-for="height in lineHeights" :value="height.value">
+            {{ height.name }}
+          </option>
+        </select>
 
-      Letter Spacing:
-      <select v-model="letterSpacing">
-        <option v-for="spacing in letterSpacings" :value="spacing.value" :key="spacing.id">
-          {{ spacing.text }}
-        </option>
-      </select>
+        Letter Spacing:
+        <select v-model="letterSpacing">
+          <option v-for="spacing in letterSpacings" :value="spacing">
+            {{ spacing }}
+          </option>
+        </select>
 
-      Background Color:
-      <select v-model="backgroundColor">
-        <option v-for="color in backgroundColors" :value="color.value" :key="color.id">
-          {{ color.text }}
-        </option>
-      </select>
-    </div>
-  </header>
+        Background Color:
+        <select v-model="backgroundColor">
+          <option v-for="color in backgroundColors" :value="color.value">
+            {{ color.name }}
+          </option>
+        </select>
+      </div>
+    </header>
+  </div>
 </template>
 
 <style scoped>
