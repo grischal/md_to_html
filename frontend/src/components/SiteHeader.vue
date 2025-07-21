@@ -148,7 +148,7 @@ const renderMD = () => {
         <button @click="renderMD">Convert MD to HTML</button>
       </span>
       <div>
-        newFontFamily Font size:
+        Font size:
         <select v-model="fontSize" class="dropdown">
           <option v-for="(size, idx) in fontSizes" :value="size" :key="idx">
             {{ size }}
