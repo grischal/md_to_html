@@ -55,12 +55,42 @@ html {
   padding: 15px 45px;
 }
 
-.settings-icon {
-  display: block;
-  width: 24px;
-  height: 24px;
-  background-image: var(--setting-icon);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+.dropdown {
+  padding: 4px 2px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
 }
+
+button {
+  font-family: var(--user-font-family);
+  color: var(--color-text);
+  padding: 4px 2px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+}
+
+/*
+button:hover {
+  background-color: var(--color-button);
+  color: var(--color-text);
+  transition: 0.2s ease-in-out;
+  box-shadow:
+    var(--color-shadow-gray, rgba(0, 0, 0, 0.16)) 0px 3px 6px,
+    var(--color-shadow-gray, rgba(0, 0, 0, 0.16)) 0px 3px 6px;
+}
+
+.button-primary {
+  inherits: button;
+  background-color: var(--color-button);
+  color: var(--color-text);
+  border: none;
+}
+*/

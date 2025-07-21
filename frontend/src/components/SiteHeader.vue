@@ -131,6 +131,11 @@ watch(
   },
   { immediate: true },
 )
+
+const renderMD = () => {
+  const json = {}
+  console.log('Button Works')
+}
 </script>
 
 <template>
@@ -140,10 +145,11 @@ watch(
       <span>
         Affect current page?
         <input type="checkbox" v-model="cssAffectPage" />
+        <button @click="renderMD">Convert MD to HTML</button>
       </span>
-      <div class="options">
+      <div>
         newFontFamily Font size:
-        <select v-model="fontSize">
+        <select v-model="fontSize" class="dropdown">
           <option v-for="(size, idx) in fontSizes" :value="size" :key="idx">
             {{ size }}
           </option>
@@ -153,7 +159,7 @@ watch(
         </span>
 
         Font:
-        <select v-model="fontFamily">
+        <select v-model="fontFamily" class="dropdown">
           <option
             v-for="font in availableFonts"
             :key="font.name"
@@ -164,28 +170,28 @@ watch(
         </select>
 
         Font Color:
-        <select v-model="fontColor">
+        <select v-model="fontColor" class="dropdown">
           <option v-for="color in fontColors" :value="color.value" :key="color.name">
             {{ color.name }}
           </option>
         </select>
 
         Line Height:
-        <select v-model="lineHeight">
+        <select v-model="lineHeight" class="dropdown">
           <option v-for="(height, idx) in lineHeights" :value="height" :key="idx">
             {{ height }}
           </option>
         </select>
 
         Letter Spacing:
-        <select v-model="letterSpacing">
+        <select v-model="letterSpacing" class="dropdown">
           <option v-for="(spacing, idx) in letterSpacings" :value="spacing" :key="idx">
             {{ spacing }}
           </option>
         </select>
 
         Background Color:
-        <select v-model="backgroundColor">
+        <select v-model="backgroundColor" class="dropdown">
           <option v-for="color in backgroundColors" :value="color.value" :key="color.name">
             {{ color.name }}
           </option>
@@ -198,8 +204,5 @@ watch(
 <style scoped>
 .header {
   margin: '100px';
-}
-.options {
-  padding: '10px';
 }
 </style>
