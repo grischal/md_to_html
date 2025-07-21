@@ -9,7 +9,7 @@ const cssAffectPage = ref(false)
 
 const fontSize = ref(localStorage.getItem('fontSize') || '12')
 const fontSizes: Ref<string[]> = ref(
-  localStorage.getItem('fontSizes') || [
+  localStorage.getItem('fontSizes')?.split(',') || [
     '8',
     '9',
     '10',
@@ -27,18 +27,22 @@ const fontSizes: Ref<string[]> = ref(
     'Custom',
   ],
 )
-watch(fontSize, (newFontSize, oldFontSize) => {
-  if (newFontSize !== oldFontSize) {
-    localStorage.setItem('fontSize', newFontSize)
-    if (newFontSize !== 'Custom' && cssAffectPage.value == true) {
-      document.documentElement.style.setProperty('--user-font-size', `${newFontSize}pt`)
+watch(
+  fontSize,
+  (newFontSize, oldFontSize) => {
+    if (newFontSize !== oldFontSize) {
+      localStorage.setItem('fontSize', newFontSize)
+      if (newFontSize !== 'Custom' && cssAffectPage.value == true) {
+        document.documentElement.style.setProperty('--user-font-size', `${newFontSize}pt`)
+      }
+      if (!fontSizes.value.some((size) => size === newFontSize)) {
+        fontSizes.value.push(newFontSize)
+        localStorage.setItem('fontSizes', fontSizes.value.join(','))
+      }
     }
-    if (!fontSizes.value.some((size) => size === newFontSize)) {
-      fontSizes.value.push(newFontSize)
-      localStorage.setItem('fontSizes', fontSizes)
-    }
-  }
-})
+  },
+  { immediate: true },
+)
 
 const availableFonts = ref([
   {
@@ -54,15 +58,17 @@ const availableFonts = ref([
     url: 'https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap',
   },
 ])
-
 const fontFamily = ref(localStorage.getItem('fontFamily') || 'Lexend')
-watch(fontFamily, (newFontFamily, oldFontFamily) => {
-  if (newFontFamily !== oldFontFamily) {
-    const selectedFont = availableFonts.value.find((f) => f.name === newFontFamily)
-    document.documentElement.style.setProperty('--user-font-family', newFontFamily)
-    localStorage.setItem('fontFamily', newFontFamily)
-  }
-})
+watch(
+  fontFamily,
+  (newFontFamily, oldFontFamily) => {
+    if (newFontFamily !== oldFontFamily) {
+      document.documentElement.style.setProperty('--user-font-family', newFontFamily)
+      localStorage.setItem('fontFamily', newFontFamily)
+    }
+  },
+  { immediate: true },
+)
 
 const fontColor = ref(localStorage.getItem('fontColor') || '#000000')
 const fontColors = ref([
@@ -71,44 +77,43 @@ const fontColors = ref([
   { name: 'Light Grey', value: '#c5c0b9' },
   { name: 'White', value: '#FFFFFF' },
 ])
-watch(fontColor, (newFontColor, oldFontColor) => {
-  if (newFontColor != oldFontColor) {
-    const selectedColor = fontColors.value.find((f) => f.name === newFontColor)
-    document.documentElement.style.setProperty('--color-text', newFontColor)
-    localStorage.setItem('fontColor', newFontColor)
-  }
-})
+watch(
+  fontColor,
+  (newFontColor, oldFontColor) => {
+    if (newFontColor != oldFontColor) {
+      document.documentElement.style.setProperty('--color-text', newFontColor)
+      localStorage.setItem('fontColor', newFontColor)
+    }
+  },
+  { immediate: true },
+)
 
 const lineHeight = ref(localStorage.getItem('lineHeight') || '1.5')
-const lineHeights = ref([
-  { name: '1', value: '1' },
-  { name: '1.5', value: '1.5' },
-  { name: '2', value: '2' },
-  { name: '2.5', value: '2.5' },
-  { name: '3', value: '3' },
-])
-watch(lineHeight, (newLineHeight, oldLineHeight) => {
-  if (newLineHeight != oldLineHeight) {
-    const selectedColor = lineHeights.value.find((f) => f.name === newLineHeight)
-    document.documentElement.style.setProperty('--user-line-height', newLineHeight)
-    localStorage.setItem('lineHeight', newLineHeight)
-  }
-})
+const lineHeights = ref(['1', '1.5', '2', '2.5', '3'])
+watch(
+  lineHeight,
+  (newLineHeight, oldLineHeight) => {
+    if (newLineHeight != oldLineHeight) {
+      document.documentElement.style.setProperty('--user-line-height', newLineHeight)
+      localStorage.setItem('lineHeight', newLineHeight)
+    }
+  },
+  { immediate: true },
+)
 
-const letterSpacing = ref('1')
-const letterSpacings = ref([
-  { text: '1', value: '1' },
-  { text: '1.1', value: '1.1' },
-  { text: '1.2', value: '1.2' },
-  { text: '1.3', value: '1.3' },
-  { text: '1.4', value: '1.4' },
-  { text: '1.5', value: '1.5' },
-  { text: '1.6', value: '1.6' },
-  { text: '1.7', value: '1.7' },
-  { text: '1.8', value: '1.8' },
-  { text: '1.9', value: '1.9' },
-  { text: '2', value: '2' },
-])
+const letterSpacing = ref(localStorage.getItem('letterSpacing') || '0.1')
+const letterSpacings = ref(['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
+watch(
+  letterSpacing,
+  (newLetterSpacing, oldLetterSpacing) => {
+    if (newLetterSpacing != oldLetterSpacing) {
+      document.documentElement.style.setProperty('--user-letter-spacing', `${newLetterSpacing}rem`)
+      localStorage.setItem('letterSpacing', newLetterSpacing)
+    }
+  },
+  { immediate: true },
+)
+
 const backgroundColor = ref(localStorage.getItem('backgroundColor') || '#FFE5B4')
 const backgroundColors = ref([
   { name: 'Peach', value: '#FFE5B4' },
@@ -116,13 +121,16 @@ const backgroundColors = ref([
   { name: 'Beige', value: '#FFFDD0' },
   { name: 'Dark Grey', value: '#26292a' },
 ])
-watch(backgroundColor, (newBackgroundColor, oldBackgroundColor) => {
-  if (newBackgroundColor != oldBackgroundColor) {
-    const selectedColor = backgroundColors.value.find((f) => f.value === newBackgroundColor)
-    document.documentElement.style.setProperty('--color-background', newBackgroundColor)
-    localStorage.setItem('backgroundColor', newBackgroundColor)
-  }
-})
+watch(
+  backgroundColor,
+  (newBackgroundColor, oldBackgroundColor) => {
+    if (newBackgroundColor != oldBackgroundColor) {
+      document.documentElement.style.setProperty('--color-background', newBackgroundColor)
+      localStorage.setItem('backgroundColor', newBackgroundColor)
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -136,7 +144,7 @@ watch(backgroundColor, (newBackgroundColor, oldBackgroundColor) => {
       <div class="options">
         newFontFamily Font size:
         <select v-model="fontSize">
-          <option v-for="size in fontSizes" :value="size">
+          <option v-for="(size, idx) in fontSizes" :value="size" :key="idx">
             {{ size }}
           </option>
         </select>
@@ -157,28 +165,28 @@ watch(backgroundColor, (newBackgroundColor, oldBackgroundColor) => {
 
         Font Color:
         <select v-model="fontColor">
-          <option v-for="color in fontColors" :value="color.value">
+          <option v-for="color in fontColors" :value="color.value" :key="color.name">
             {{ color.name }}
           </option>
         </select>
 
         Line Height:
         <select v-model="lineHeight">
-          <option v-for="height in lineHeights" :value="height.value">
-            {{ height.name }}
+          <option v-for="(height, idx) in lineHeights" :value="height" :key="idx">
+            {{ height }}
           </option>
         </select>
 
         Letter Spacing:
         <select v-model="letterSpacing">
-          <option v-for="spacing in letterSpacings" :value="spacing">
+          <option v-for="(spacing, idx) in letterSpacings" :value="spacing" :key="idx">
             {{ spacing }}
           </option>
         </select>
 
         Background Color:
         <select v-model="backgroundColor">
-          <option v-for="color in backgroundColors" :value="color.value">
+          <option v-for="color in backgroundColors" :value="color.value" :key="color.name">
             {{ color.name }}
           </option>
         </select>
