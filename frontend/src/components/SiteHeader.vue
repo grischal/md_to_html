@@ -4,8 +4,10 @@ import type { Ref } from 'vue'
 
 // const arrayRange = (start, stop, step) =>
 //   Array.from({ length: (stop - start) / step + 1 }, (value, index) => start + index * step)
-
-const cssAffectPage = ref(false)
+const cssAffectPage = ref(localStorage.getItem('cssAffectPage') === 'true')
+watch(cssAffectPage, (newCSSAffectPage) => {
+  localStorage.setItem('cssAffectPage', String(newCSSAffectPage))
+})
 
 const fontSize = ref(localStorage.getItem('fontSize') || '12')
 const fontSizes: Ref<string[]> = ref(
