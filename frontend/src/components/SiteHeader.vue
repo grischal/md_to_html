@@ -139,8 +139,8 @@ const renderMD = () => {
 </script>
 
 <template>
-  <div class="container-div">
-    <header class="header">
+  <header class="header">
+    <div class="container-div">
       <h3>CSS styling for HTML output:</h3>
       <span>
         Affect current page?
@@ -197,12 +197,10 @@ const renderMD = () => {
           </option>
         </select>
       </div>
-    </header>
-  </div>
+    </div>
+  </header>
 </template>
 
 <style scoped>
-.header {
-  margin: '100px';
-}
+/*  */
 </style>
