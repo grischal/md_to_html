@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 var pandocServer string = "http://127.0.0.1:3030"
@@ -68,8 +70,20 @@ func RelayReq(writer http.ResponseWriter, reader *http.Request) {
 
 }
 func StartPandocServer() {
-	cmd := exec.Command("./pandoc-server")
-	err := cmd.Run()
+	path, err := os.Getwd()
+	if err != nil {
+		fmt.Printf("Failiure getting current directory: %v", err)
+	}
+
+	path = filepath.Base(path)
+	if path == "Pandoc" {
+		cmd := exec.Command("./backend/pandoc-server")
+		err = cmd.Run()
+	} else {
+		cmd := exec.Command("./pandoc-server")
+		err = cmd.Run()
+	}
+
 	fmt.Printf("Pandoc Server finished with error: %v", err)
 }
 
