@@ -6,8 +6,15 @@ import type { Ref } from 'vue'
     Refactor refs into one site status object that can be called by a single watcher
     This will allow cahnges to one ref to effect other refs
 */
-
-const cssAffectPage = ref(localStorage.getItem('cssAffectPage') === 'true')
+const oldAP = localStorage.getItem('cssAffectPage')
+window.addEventListener('DOMContentLoaded', () => {
+  // This enables the user settings to be loaded to the page
+  // even if they usually have the cssAffectPage checkbox off
+  if (oldAP !== null) {
+    cssAffectPage.value = oldAP === 'true'
+  }
+})
+const cssAffectPage = ref(true)
 watch(cssAffectPage, (newCSSAffectPage) => {
   localStorage.setItem('cssAffectPage', String(newCSSAffectPage))
 })
