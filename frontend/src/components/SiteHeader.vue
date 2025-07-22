@@ -63,7 +63,9 @@ watch(
   fontFamily,
   (newFontFamily, oldFontFamily) => {
     if (newFontFamily !== oldFontFamily) {
-      document.documentElement.style.setProperty('--user-font-family', newFontFamily)
+      if (cssAffectPage.value) {
+        document.documentElement.style.setProperty('--user-font-family', newFontFamily)
+      }
       localStorage.setItem('fontFamily', newFontFamily)
     }
   },
@@ -81,20 +83,24 @@ watch(
   fontColor,
   (newFontColor, oldFontColor) => {
     if (newFontColor != oldFontColor) {
-      document.documentElement.style.setProperty('--color-text', newFontColor)
+      if (cssAffectPage.value) {
+        document.documentElement.style.setProperty('--color-text', newFontColor)
+      }
       localStorage.setItem('fontColor', newFontColor)
     }
   },
   { immediate: true },
 )
 
-const lineHeight = ref(localStorage.getItem('lineHeight') || '1.5')
+const lineHeight = ref(localStorage.getItem('lineHeight') || '2')
 const lineHeights = ref(['1', '1.5', '2', '2.5', '3'])
 watch(
   lineHeight,
   (newLineHeight, oldLineHeight) => {
     if (newLineHeight != oldLineHeight) {
-      document.documentElement.style.setProperty('--user-line-height', newLineHeight)
+      if (cssAffectPage.value) {
+        document.documentElement.style.setProperty('--user-line-height', newLineHeight)
+      }
       localStorage.setItem('lineHeight', newLineHeight)
     }
   },
@@ -107,7 +113,12 @@ watch(
   letterSpacing,
   (newLetterSpacing, oldLetterSpacing) => {
     if (newLetterSpacing != oldLetterSpacing) {
-      document.documentElement.style.setProperty('--user-letter-spacing', `${newLetterSpacing}rem`)
+      if (cssAffectPage.value) {
+        document.documentElement.style.setProperty(
+          '--user-letter-spacing',
+          `${newLetterSpacing}rem`,
+        )
+      }
       localStorage.setItem('letterSpacing', newLetterSpacing)
     }
   },
@@ -125,7 +136,9 @@ watch(
   backgroundColor,
   (newBackgroundColor, oldBackgroundColor) => {
     if (newBackgroundColor != oldBackgroundColor) {
-      document.documentElement.style.setProperty('--color-background', newBackgroundColor)
+      if (cssAffectPage.value) {
+        document.documentElement.style.setProperty('--color-background', newBackgroundColor)
+      }
       localStorage.setItem('backgroundColor', newBackgroundColor)
     }
   },
@@ -136,66 +149,91 @@ const renderMD = () => {
   const json = {}
   console.log('Button Works')
 }
+
+const containerColor = ref(localStorage.getItem('containerColor') || '#f5f5f5')
+const containerColors = ref([
+  { name: 'light-gray', value: '#f5f5f5' },
+  { name: 'Dark Grey', value: '#26292a' },
+])
+watch(
+  containerColor,
+  (newContainerColor, oldContainerColor) => {
+    if (newContainerColor != oldContainerColor) {
+      document.documentElement.style.setProperty('--container-background', newContainerColor)
+      localStorage.setItem('containerColor', newContainerColor)
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
   <header class="header">
     <div class="container-div">
-      <h3>CSS styling for HTML output:</h3>
-      <span>
-        Affect current page?
-        <input type="checkbox" v-model="cssAffectPage" />
-        <button @click="renderMD">Convert MD to HTML</button>
-      </span>
       <div>
-        Font size:
-        <select v-model="fontSize" class="dropdown">
-          <option v-for="(size, idx) in fontSizes" :value="size" :key="idx">
-            {{ size }}
-          </option>
-        </select>
-        <span v-if="fontSize === 'Custom'">
-          <input v-model.lazy="fontSize" />
+        <h3>CSS styling for HTML output:</h3>
+        <span>
+          Affect current page?
+          <input type="checkbox" v-model="cssAffectPage" />
+          <button @click="renderMD">Convert MD to HTML</button>
         </span>
+        <div>
+          Font size:
+          <select v-model="fontSize" class="dropdown">
+            <option v-for="(size, idx) in fontSizes" :value="size" :key="idx">
+              {{ size }}
+            </option>
+          </select>
+          <span v-if="fontSize === 'Custom'">
+            <input v-model.lazy="fontSize" />
+          </span>
 
-        Font:
-        <select v-model="fontFamily" class="dropdown">
-          <option
-            v-for="font in availableFonts"
-            :key="font.name"
-            :style="{ fontFamily: font.name }"
-          >
-            {{ font.name }}
-          </option>
-        </select>
+          Font:
+          <select v-model="fontFamily" class="dropdown">
+            <option
+              v-for="font in availableFonts"
+              :key="font.name"
+              :style="{ fontFamily: font.name }"
+            >
+              {{ font.name }}
+            </option>
+          </select>
 
-        Font Color:
-        <select v-model="fontColor" class="dropdown">
-          <option v-for="color in fontColors" :value="color.value" :key="color.name">
-            {{ color.name }}
-          </option>
-        </select>
+          Font Color:
+          <select v-model="fontColor" class="dropdown">
+            <option v-for="color in fontColors" :value="color.value" :key="color.name">
+              {{ color.name }}
+            </option>
+          </select>
 
-        Line Height:
-        <select v-model="lineHeight" class="dropdown">
-          <option v-for="(height, idx) in lineHeights" :value="height" :key="idx">
-            {{ height }}
-          </option>
-        </select>
+          Line Height:
+          <select v-model="lineHeight" class="dropdown">
+            <option v-for="(height, idx) in lineHeights" :value="height" :key="idx">
+              {{ height }}
+            </option>
+          </select>
 
-        Letter Spacing:
-        <select v-model="letterSpacing" class="dropdown">
-          <option v-for="(spacing, idx) in letterSpacings" :value="spacing" :key="idx">
-            {{ spacing }}
-          </option>
-        </select>
-
-        Background Color:
-        <select v-model="backgroundColor" class="dropdown">
-          <option v-for="color in backgroundColors" :value="color.value" :key="color.name">
-            {{ color.name }}
-          </option>
-        </select>
+          Letter Spacing:
+          <select v-model="letterSpacing" class="dropdown">
+            <option v-for="(spacing, idx) in letterSpacings" :value="spacing" :key="idx">
+              {{ spacing }}
+            </option>
+          </select>
+        </div>
+        <div>
+          Background Color:
+          <select v-model="backgroundColor" class="dropdown">
+            <option v-for="color in backgroundColors" :value="color.value" :key="color.name">
+              {{ color.name }}
+            </option>
+          </select>
+          Container Color (Site only):
+          <select v-model="containerColor" class="dropdown">
+            <option v-for="color in containerColors" :value="color.value" :key="color.name">
+              {{ color.name }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
   </header>
