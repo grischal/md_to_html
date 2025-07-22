@@ -2,8 +2,11 @@
 import { ref, watch } from 'vue'
 import type { Ref } from 'vue'
 
-// const arrayRange = (start, stop, step) =>
-//   Array.from({ length: (stop - start) / step + 1 }, (value, index) => start + index * step)
+/* TODO:
+    Refactor refs into one site status object that can be called by a single watcher
+    This will allow cahnges to one ref to effect other refs
+*/
+
 const cssAffectPage = ref(localStorage.getItem('cssAffectPage') === 'true')
 watch(cssAffectPage, (newCSSAffectPage) => {
   localStorage.setItem('cssAffectPage', String(newCSSAffectPage))
