@@ -6,29 +6,19 @@ import RenderField from './components/RenderField.vue'
 </script>
 
 <template>
-  <SiteHeader />
+  <SiteHeader statusProp="siteStatus" />
   <div class="input-render">
-    <div class="column">
-      <InputField />
-    </div>
-    <div class="column">
-      <RenderField />
-    </div>
+    <InputField class="column" />
+    <RenderField class="column" />
   </div>
+  <SiteFooter />
 </template>
 
 <style scoped>
 .input-render {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
   min-height: 40em;
-}
-.column {
-  border-radius: 15px;
-  background-color: var(--container-background);
-  margin: 10px;
-  padding: 15px 45px;
-  width: 50%;
-  flex: 1;
 }
 </style>

@@ -3,8 +3,10 @@ const message = ''
 </script>
 
 <template>
-  Markdown Content:
-  <textarea v-model="message" placeholder="add markdown here">This is</textarea>
+  <div class="container-div">
+    Markdown Content:
+    <textarea v-model.lazy="message" placeholder="add markdown here">This is</textarea>
+  </div>
 </template>
 
 <style scoped>
