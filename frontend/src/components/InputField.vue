@@ -10,7 +10,7 @@ const { markdown } = storeToRefs(store)
 <template>
   <div class="container-div">
     Markdown Content:
-    <textarea v-model.lazy="markdown" placeholder="add markdown here">This is</textarea>
+    <textarea v-model.lazy="markdown" placeholder="add markdown here" name="markdownInput" />
   </div>
 </template>
 

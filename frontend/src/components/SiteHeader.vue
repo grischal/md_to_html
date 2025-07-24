@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', () => {
     cssAffectPage.value = oldAP === 'true'
   }
 })
-const cssAffectPage = ref(true)
+const cssAffectPage = ref(false)
 watch(cssAffectPage, (newCSSAffectPage) => {
   localStorage.setItem('cssAffectPage', String(newCSSAffectPage))
 })
@@ -122,16 +122,24 @@ watch(
 )
 
 // const letterSpacing = ref(localStorage.getItem('letterSpacing') || '0.1')
-const letterSpacings = ref(['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
+const letterSpacings = ref([
+  { name: '0.1', value: '0.1rem' },
+  { name: '0.2', value: '0.2rem' },
+  { name: '0.3', value: '0.3rem' },
+  { name: '0.4', value: '0.4rem' },
+  { name: '0.5', value: '0.5rem' },
+  { name: '0.6', value: '0.6rem' },
+  { name: '0.7', value: '0.7rem' },
+  { name: '0.8', value: '0.8rem' },
+  { name: '0.9', value: '0.9rem' },
+  { name: '1', value: '1rem' },
+])
 watch(
   letterSpacing,
   (newLetterSpacing, oldLetterSpacing) => {
     if (newLetterSpacing != oldLetterSpacing) {
       if (cssAffectPage.value) {
-        document.documentElement.style.setProperty(
-          '--user-letter-spacing',
-          `${newLetterSpacing}rem`,
-        )
+        document.documentElement.style.setProperty('--user-letter-spacing', newLetterSpacing)
       }
       localStorage.setItem('letterSpacing', newLetterSpacing)
     }
@@ -230,8 +238,8 @@ watch(
 
           Letter Spacing:
           <select v-model="letterSpacing" class="dropdown">
-            <option v-for="(spacing, idx) in letterSpacings" :value="spacing" :key="idx">
-              {{ spacing }}
+            <option v-for="spacing in letterSpacings" :value="spacing.value" :key="spacing.name">
+              {{ spacing.name }}
             </option>
           </select>
         </div>

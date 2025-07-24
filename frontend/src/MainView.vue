@@ -1,15 +1,16 @@
 <script setup lang="ts">
-// import { ref } from 'vue'
+import { ref } from 'vue'
 import SiteHeader from './components/SiteHeader.vue'
+import SiteFooter from './components/SiteFooter.vue'
 import InputField from './components/InputField.vue'
 import RenderField from './components/RenderField.vue'
 </script>
 
 <template>
-  <SiteHeader statusProp="siteStatus" />
+  <SiteHeader />
   <div class="input-render">
-    <InputField class="column" />
-    <RenderField class="column" />
+    <InputField />
+    <RenderField />
   </div>
   <SiteFooter />
 </template>
