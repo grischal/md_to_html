@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { siteStatusStore } from '@/stores/siteStatus'
+import { storeToRefs } from 'pinia'
 import type { Ref } from 'vue'
 
-/* TODO:
-    Refactor refs into one site status object that can be called by a single watcher
-    This will allow cahnges to one ref to effect other refs
-*/
+const store = siteStatusStore()
+const { fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
+  storeToRefs(store)
+
 const oldAP = localStorage.getItem('cssAffectPage')
 window.addEventListener('DOMContentLoaded', () => {
   // This enables the user settings to be loaded to the page
@@ -19,7 +21,7 @@ watch(cssAffectPage, (newCSSAffectPage) => {
   localStorage.setItem('cssAffectPage', String(newCSSAffectPage))
 })
 
-const fontSize = ref(localStorage.getItem('fontSize') || '12')
+// const fontSize = ref(localStorage.getItem('fontSize') || '12')
 const fontSizes: Ref<string[]> = ref(
   localStorage.getItem('fontSizes')?.split(',') || [
     '8',
@@ -70,7 +72,7 @@ const availableFonts = ref([
     url: 'https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap',
   },
 ])
-const fontFamily = ref(localStorage.getItem('fontFamily') || 'Lexend')
+// const fontFamily = ref(localStorage.getItem('fontFamily') || 'Lexend')
 watch(
   fontFamily,
   (newFontFamily, oldFontFamily) => {
@@ -84,7 +86,7 @@ watch(
   { immediate: true },
 )
 
-const fontColor = ref(localStorage.getItem('fontColor') || '#000000')
+// const fontColor = ref(localStorage.getItem('fontColor') || '#000000')
 const fontColors = ref([
   { name: 'Black', value: '#000000' },
   { name: 'Grey', value: '#808080' },
@@ -104,7 +106,7 @@ watch(
   { immediate: true },
 )
 
-const lineHeight = ref(localStorage.getItem('lineHeight') || '2')
+// const lineHeight = ref(localStorage.getItem('lineHeight') || '2')
 const lineHeights = ref(['1', '1.5', '2', '2.5', '3'])
 watch(
   lineHeight,
@@ -119,7 +121,7 @@ watch(
   { immediate: true },
 )
 
-const letterSpacing = ref(localStorage.getItem('letterSpacing') || '0.1')
+// const letterSpacing = ref(localStorage.getItem('letterSpacing') || '0.1')
 const letterSpacings = ref(['0.1', '0.2', '0.3', '0.4', '0.5', '0.6', '0.7', '0.8', '0.9', '1'])
 watch(
   letterSpacing,
@@ -137,7 +139,7 @@ watch(
   { immediate: true },
 )
 
-const backgroundColor = ref(localStorage.getItem('backgroundColor') || '#FFE5B4')
+// const backgroundColor = ref(localStorage.getItem('backgroundColor') || '#FFE5B4')
 const backgroundColors = ref([
   { name: 'Peach', value: '#FFE5B4' },
   { name: 'White', value: '#FFFFFF' },
@@ -158,6 +160,7 @@ watch(
 )
 
 const renderMD = () => {
+  // TODO: Maybe remove
   const json = {}
   console.log('Button Works')
 }

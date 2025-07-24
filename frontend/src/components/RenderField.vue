@@ -1,5 +1,21 @@
 <script setup lang="ts">
-//
+import { ref, watch } from 'vue'
+import { siteStatusStore } from '@/stores/siteStatus'
+import { markdownToHtml } from '@/composables/ServerCall'
+import { storeToRefs } from 'pinia'
+import DOMPurify from 'dompurify'
+
+const store = siteStatusStore()
+const { markdown } = storeToRefs(store)
+
+const render = ref(false)
+let rawHTML = ''
+
+watch(markdown, (newMarkdown, oldMarkdown) => {
+  if (newMarkdown !== oldMarkdown) {
+    rawHTML = DOMPurify.sanitize(markdownToHtml(newMarkdown))
+  }
+})
 </script>
 
 <template>
