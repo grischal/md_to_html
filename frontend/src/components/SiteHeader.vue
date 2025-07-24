@@ -2,7 +2,6 @@
 import { ref, watch } from 'vue'
 import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
-import type { Ref } from 'vue'
 
 const store = siteStatusStore()
 const { fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
@@ -22,7 +21,7 @@ watch(cssAffectPage, (newCSSAffectPage) => {
 })
 
 // const fontSize = ref(localStorage.getItem('fontSize') || '12')
-const fontSizes: Ref<string[]> = ref(
+const fontSizes = ref(
   localStorage.getItem('fontSizes')?.split(',') || [
     '8',
     '9',
@@ -167,12 +166,6 @@ watch(
   { immediate: true },
 )
 
-const renderMD = () => {
-  // TODO: Maybe remove
-  const json = {}
-  console.log('Button Works')
-}
-
 const containerColor = ref(localStorage.getItem('containerColor') || '#f5f5f5')
 const containerColors = ref([
   { name: 'light-gray', value: '#f5f5f5' },
@@ -198,7 +191,6 @@ watch(
         <span>
           Affect current page?
           <input type="checkbox" v-model="cssAffectPage" />
-          <button @click="renderMD">Convert MD to HTML</button>
         </span>
         <div>
           Font size:
@@ -228,7 +220,8 @@ watch(
               {{ color.name }}
             </option>
           </select>
-
+        </div>
+        <div>
           Line Height:
           <select v-model="lineHeight" class="dropdown">
             <option v-for="(height, idx) in lineHeights" :value="height" :key="idx">
