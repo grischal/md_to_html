@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import SiteHeader from './components/SiteHeader.vue'
-import SiteFooter from './components/SiteFooter.vue'
 import InputField from './components/InputField.vue'
 import RenderField from './components/RenderField.vue'
 </script>
@@ -12,7 +11,6 @@ import RenderField from './components/RenderField.vue'
     <InputField />
     <RenderField />
   </div>
-  <SiteFooter />
 </template>
 
 <style scoped>
