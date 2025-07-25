@@ -3,22 +3,35 @@ import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
 
 const store = siteStatusStore()
-const { markdown } = storeToRefs(store)
+const { markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
+  storeToRefs(store)
 </script>
 
 <template>
   <div class="container-div">
     Markdown Content:
-    <textarea v-model="markdown" placeholder="add markdown here" name="markdownInput" />
+    <textarea
+      v-model="markdown"
+      placeholder="Add Markdown Here"
+      name="markdownInput"
+      class="inline-css"
+    />
   </div>
 </template>
 
 <style scoped>
 /**/
-textarea {
+.inline-css {
+  font-size: v-bind(fontSize);
+  font-family: v-bind(fontFamily);
+  color: v-bind(fontColor);
+  line-height: v-bind(lineHeight);
+  letter-spacing: v-bind(letterSpacing);
+  background-color: v-bind(backgroundColor);
   width: 100%;
   height: 91%;
   resize: none;
-  overflow: scroll;
+  overflow-y: scroll;
+  padding-left: 15px;
 }
 </style>
