@@ -1,39 +1,47 @@
-# .
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+# Pandoc Markdown to HTML Converter
 
 ## Project Setup
 
-```sh
-npm install
-```
+  ```sh
+  npm install
+  ```
 
 ### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
+  ```sh
+  npm run dev
+  ```
 
 ### Type-Check, Compile and Minify for Production
 
-```sh
-npm run build
-```
+  ```sh
+  npm run build
+  ```
 
 ### Lint with [ESLint](https://eslint.org/)
 
-```sh
-npm run lint
-```
+  ```sh
+  npm run lint
+  ```
+
+## Requirements
+
+1. Convert from Markdown to HTML5
+2. Allow CSS styling for HTML 5
+3. Deploy to cloud
+
+### System Setup
+
+#### Frontend
+
+Built with Vue 3 and split into
+
+#### Backend
+
+Soft symbolic link named pandoc-server pointing to the pandoc executable.
+Alternatively you can also rename the pandoc executable to pandoc-server and use it directly instead.
+
+## TODO
+
+- [ ] Update html whenever a CSS variable is updated
+- Add functionality to download and upload files
