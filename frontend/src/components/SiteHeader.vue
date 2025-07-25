@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
+import type { Ref } from 'vue'
 
 const store = siteStatusStore()
 const { fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
@@ -15,42 +16,55 @@ window.addEventListener('DOMContentLoaded', () => {
     cssAffectPage.value = oldAP === 'true'
   }
 })
+
 const cssAffectPage = ref(false)
 watch(cssAffectPage, (newCSSAffectPage) => {
   localStorage.setItem('cssAffectPage', String(newCSSAffectPage))
 })
 
-// const fontSize = ref(localStorage.getItem('fontSize') || '12')
-const fontSizes = ref(
-  localStorage.getItem('fontSizes')?.split(',') || [
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-    '14',
-    '18',
-    '24',
-    '30',
-    '36',
-    '48',
-    '60',
-    '72',
-    '96',
-    'Custom',
+// INFO: fontSize logic
+const getStoredFontSizes = () => {
+  let storedFontSizes = localStorage.getItem('fontSizes')
+  try {
+    return storedFontSizes
+      ? (JSON.parse(storedFontSizes) as { name: string; value: string }[])
+      : null
+  } catch {
+    return null
+  }
+}
+const storedFontSizes = getStoredFontSizes()
+const fontSizes: Ref<{ name: string; value: string }[]> = ref(
+  storedFontSizes || [
+    { name: '8', value: '8pt' },
+    { name: '9', value: '9pt' },
+    { name: '10', value: '10pt' },
+    { name: '11', value: '11pt' },
+    { name: '12', value: '12pt' },
+    { name: '14', value: '14pt' },
+    { name: '18', value: '18pt' },
+    { name: '24', value: '24pt' },
+    { name: '30', value: '30pt' },
+    { name: '36', value: '36pt' },
+    { name: '48', value: '48pt' },
+    { name: '60', value: '60pt' },
+    { name: '72', value: '72pt' },
+    { name: '96', value: '96pt' },
+    { name: 'Custom', value: 'Custom' },
   ],
 )
 watch(
   fontSize,
   (newFontSize, oldFontSize) => {
     if (newFontSize !== oldFontSize) {
+      console.log(fontSize)
       localStorage.setItem('fontSize', newFontSize)
       if (newFontSize !== 'Custom' && cssAffectPage.value == true) {
-        document.documentElement.style.setProperty('--user-font-size', `${newFontSize}pt`)
+        document.documentElement.style.setProperty('--user-font-size', newFontSize)
       }
-      if (!fontSizes.value.some((size) => size === newFontSize)) {
-        fontSizes.value.push(newFontSize)
-        localStorage.setItem('fontSizes', fontSizes.value.join(','))
+      if (!fontSizes.value.some((size) => size.value === newFontSize)) {
+        fontSizes.value.push({ name: newFontSize, value: `${newFontSize}pt` })
+        localStorage.setItem('fontSizes', JSON.stringify(fontSizes.value))
       }
     }
   },
@@ -76,7 +90,7 @@ watch(
   fontFamily,
   (newFontFamily, oldFontFamily) => {
     if (newFontFamily !== oldFontFamily) {
-      if (cssAffectPage.value) {
+      if (cssAffectPage.value === true) {
         document.documentElement.style.setProperty('--user-font-family', newFontFamily)
       }
       localStorage.setItem('fontFamily', newFontFamily)
@@ -132,6 +146,10 @@ const letterSpacings = ref([
   { name: '0.8', value: '0.8rem' },
   { name: '0.9', value: '0.9rem' },
   { name: '1', value: '1rem' },
+  { name: '1.5', value: '1.5rem' },
+  { name: '2', value: '2rem' },
+  { name: '2.5', value: '2.5rem' },
+  { name: '3', value: '3rem' },
 ])
 watch(
   letterSpacing,
@@ -195,12 +213,12 @@ watch(
         <div>
           Font size:
           <select v-model="fontSize" class="dropdown">
-            <option v-for="(size, idx) in fontSizes" :value="size" :key="idx">
-              {{ size }}
+            <option v-for="size in fontSizes" :value="size.value" :key="size.name">
+              {{ size.name }}
             </option>
           </select>
           <span v-if="fontSize === 'Custom'">
-            <input v-model.lazy="fontSize" />
+            <input v-model.lazy="fontSize" style="width: 3rem" />
           </span>
 
           Font:

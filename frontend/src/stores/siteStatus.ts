@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 export const siteStatusStore = defineStore('siteStatus', () => {
   const markdown = ref('')
-  const fontSize = ref(localStorage.getItem('fontSize') || '12')
+  const fontSize = ref(localStorage.getItem('fontSize') || '12pt')
   const fontFamily = ref(localStorage.getItem('fontFamily') || 'Lexend')
   const fontColor = ref(localStorage.getItem('fontColor') || '#000000')
   const lineHeight = ref(localStorage.getItem('lineHeight') || '2')
