@@ -14,14 +14,15 @@ const isFetching = ref(false)
 const rawHTML = ref('')
 const oldHTML = ref('')
 
-watch(markdown, async (newMarkdown, oldMarkdown) => {
-  if (newMarkdown !== oldMarkdown) {
+watch(
+  [markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor],
+  async () => {
     oldHTML.value = rawHTML.value
     isFetching.value = true
     rawHTML.value = await markdownToHtml()
     isFetching.value = false
-  }
-})
+  },
+)
 </script>
 
 <template>
@@ -29,9 +30,9 @@ watch(markdown, async (newMarkdown, oldMarkdown) => {
     Render HTML
     <input type="checkbox" v-model="render" name="RenderHTML" />
     <div class="inline-css">
-      <div v-if="render" class="inner-margin">
-        <div v-if="isFetching" v-html="oldHTML"></div>
-        <div v-else v-html="rawHTML"></div>
+      <div v-if="render">
+        <div v-if="isFetching" v-html="oldHTML" />
+        <div v-else v-html="rawHTML" placeholder="HTML Renders Here" />
       </div>
       <div v-else>
         <div v-if="isFetching">
@@ -57,9 +58,7 @@ watch(markdown, async (newMarkdown, oldMarkdown) => {
   width: 100%;
   height: 91%;
   resize: none;
-  overflow: scroll;
-}
-.inner-margin {
-  margin-left: 15px;
+  overflow-y: scroll;
+  padding-left: 15px;
 }
 </style>
