@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { siteStatusStore } from '@/stores/siteStatus'
 import { markdownToHtml } from '@/composables/ServerCall'
 import { storeToRefs } from 'pinia'
@@ -18,7 +18,7 @@ watch(markdown, async (newMarkdown, oldMarkdown) => {
   if (newMarkdown !== oldMarkdown) {
     oldHTML.value = rawHTML.value
     isFetching.value = true
-    rawHTML.value = await markdownToHtml(newMarkdown)
+    rawHTML.value = await markdownToHtml()
     isFetching.value = false
   }
 })
@@ -31,13 +31,13 @@ watch(markdown, async (newMarkdown, oldMarkdown) => {
     <div class="inline-css">
       <div v-if="render" class="inner-margin">
         <div v-if="isFetching" v-html="oldHTML"></div>
-        <div v-else="isFetching" v-html="rawHTML"></div>
+        <div v-else v-html="rawHTML"></div>
       </div>
-      <div v-else="render">
+      <div v-else>
         <div v-if="isFetching">
           {{ oldHTML }}
         </div>
-        <div v-else="isFetching">
+        <div v-else>
           {{ rawHTML }}
         </div>
       </div>
