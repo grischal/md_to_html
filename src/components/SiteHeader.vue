@@ -92,21 +92,13 @@ const containerColors = ref([
   { name: 'Dark Grey', value: '#26292a' },
 ])
 
-const cssProperties = [
-  '--user-font-size',
-  '--user-font-family',
-  '--color-text',
-  '--user-line-height',
-  '--user-letter-spacing',
-  '--color-background',
-]
-const localStorageItems = [
-  'fontSize',
-  'fontFamily',
-  'fontColor',
-  'lineHeight',
-  'letterSpacing',
-  'backgroundColor',
+const cssPropsAndLocalStorage = [
+  ['--user-font-size', 'fontSize'],
+  ['--user-font-family', 'fontFamily'],
+  ['--color-text', 'fontColor'],
+  ['--user-line-height', 'lineHeight'],
+  ['--user-letter-spacing', 'letterSpacing'],
+  ['--color-background', 'backgroundColor'],
 ]
 watch(
   [fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor],
@@ -115,9 +107,9 @@ watch(
       for (let i = 0; i < newValues.length; i++) {
         if (oldValues[i] !== newValues[i]) {
           if (cssAffectPage.value === true) {
-            document.documentElement.style.setProperty(cssProperties[i], newValues[i])
+            document.documentElement.style.setProperty(cssPropsAndLocalStorage[i][0], newValues[i])
           }
-          localStorage.setItem(localStorageItems[i], newValues[i])
+          localStorage.setItem(cssPropsAndLocalStorage[i][1], newValues[i])
         }
       }
     }
