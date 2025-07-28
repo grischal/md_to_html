@@ -20,6 +20,7 @@ export async function markdownToHtml() {
     }
     const responseBody = await response.json()
     const purifiedHtml = DOMPurify.sanitize(responseBody.output)
+
     return `<body style="font-size:${fontSize}; font-family:${fontFamily};
 font-color:${fontColor}; line-height:${lineHeight}; letter-spacing:${letterSpacing};
 background-color:${backgroundColor}">${purifiedHtml}</body>`

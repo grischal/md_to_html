@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
+import FilePond from './FilePond.vue'
 
 const store = siteStatusStore()
 const { fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
@@ -119,67 +120,75 @@ watch(
 
 <template>
   <header class="header">
-    <div class="container-div">
+    <div class="container-div" id="split">
       <div>
-        <h3>CSS styling for HTML output:</h3>
-        <span>
-          Affect current page?
-          <input type="checkbox" v-model="cssAffectPage" />
-        </span>
         <div>
-          Font size:
-          <select v-model="fontSize" class="dropdown">
-            <option v-for="size in fontSizes" :value="size.value" :key="size.name">
-              {{ size.name }}
-            </option>
-          </select>
+          <h3>CSS styling for HTML output:</h3>
+          <span>
+            Affect current page?
+            <input type="checkbox" v-model="cssAffectPage" />
+          </span>
+          <div>
+            Font size:
+            <select v-model="fontSize" class="dropdown">
+              <option v-for="size in fontSizes" :value="size.value" :key="size.name">
+                {{ size.name }}
+              </option>
+            </select>
 
-          Font:
-          <select v-model="fontFamily" class="dropdown">
-            <option
-              v-for="font in availableFonts"
-              :key="font.name"
-              :style="{ fontFamily: font.name }"
-            >
-              {{ font.name }}
-            </option>
-          </select>
+            Font:
+            <select v-model="fontFamily" class="dropdown">
+              <option
+                v-for="font in availableFonts"
+                :key="font.name"
+                :style="{ fontFamily: font.name }"
+              >
+                {{ font.name }}
+              </option>
+            </select>
 
-          Font Color:
-          <select v-model="fontColor" class="dropdown">
-            <option v-for="color in fontColors" :value="color.value" :key="color.name">
-              {{ color.name }}
-            </option>
-          </select>
+            Font Color:
+            <select v-model="fontColor" class="dropdown">
+              <option v-for="color in fontColors" :value="color.value" :key="color.name">
+                {{ color.name }}
+              </option>
+            </select>
+          </div>
+          <div>
+            Line Height:
+            <select v-model="lineHeight" class="dropdown">
+              <option v-for="(height, idx) in lineHeights" :value="height" :key="idx">
+                {{ height }}
+              </option>
+            </select>
+
+            Letter Spacing:
+            <select v-model="letterSpacing" class="dropdown">
+              <option v-for="spacing in letterSpacings" :value="spacing.value" :key="spacing.name">
+                {{ spacing.name }}
+              </option>
+            </select>
+          </div>
+          <div>
+            Background Color:
+            <select v-model="backgroundColor" class="dropdown">
+              <option v-for="color in backgroundColors" :value="color.value" :key="color.name">
+                {{ color.name }}
+              </option>
+            </select>
+            Container Color (Site only):
+            <select v-model="containerColor" class="dropdown">
+              <option v-for="color in containerColors" :value="color.value" :key="color.name">
+                {{ color.name }}
+              </option>
+            </select>
+          </div>
         </div>
+      </div>
+      <div id="split">
+        <div></div>
         <div>
-          Line Height:
-          <select v-model="lineHeight" class="dropdown">
-            <option v-for="(height, idx) in lineHeights" :value="height" :key="idx">
-              {{ height }}
-            </option>
-          </select>
-
-          Letter Spacing:
-          <select v-model="letterSpacing" class="dropdown">
-            <option v-for="spacing in letterSpacings" :value="spacing.value" :key="spacing.name">
-              {{ spacing.name }}
-            </option>
-          </select>
-        </div>
-        <div>
-          Background Color:
-          <select v-model="backgroundColor" class="dropdown">
-            <option v-for="color in backgroundColors" :value="color.value" :key="color.name">
-              {{ color.name }}
-            </option>
-          </select>
-          Container Color (Site only):
-          <select v-model="containerColor" class="dropdown">
-            <option v-for="color in containerColors" :value="color.value" :key="color.name">
-              {{ color.name }}
-            </option>
-          </select>
+          <FilePond />
         </div>
       </div>
     </div>
@@ -188,4 +197,8 @@ watch(
 
 <style scoped>
 /*  */
+#split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 </style>
