@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { downloadHTML } from '@/composables/DownloadHTML'
 import { ref, watch } from 'vue'
 import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
@@ -116,6 +117,8 @@ watch(
     }
   },
 )
+
+const filename = ref('')
 </script>
 
 <template>
@@ -185,9 +188,13 @@ watch(
           </div>
         </div>
       </div>
-      <div id="split">
+      <div id="up-down-load">
         <div></div>
         <div>
+          <span>
+            <btn @click="downloadHTML(filename)" class="button-primary">Download Markdown</btn>
+            <input v-model="filename" placeholder="Enter Filename" />
+          </span>
           <FilePond />
         </div>
       </div>

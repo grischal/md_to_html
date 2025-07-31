@@ -19,8 +19,14 @@ export async function markdownToHtml() {
       throw new Error(`Error! status: ${response.status}`)
     }
     const responseBody = await response.json()
-    const purifiedHtml = DOMPurify.sanitize(responseBody.output)
 
+    let purifiedHtml = ''
+    if (DOMPurify.isSupported) {
+      purifiedHtml = DOMPurify.sanitize(responseBody.output)
+    } else {
+      purifiedHtml // WARN: IMPLEMENT BACKUP PLAN
+      alert('Input could not be verified, please use a supported browser')
+    }
     return `<body style="font-size:${fontSize}; font-family:${fontFamily};
 font-color:${fontColor}; line-height:${lineHeight}; letter-spacing:${letterSpacing};
 background-color:${backgroundColor}">${purifiedHtml}</body>`

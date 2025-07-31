@@ -31,7 +31,7 @@ const onRemoveFile = () => {
   <div id="app">
     <file-pond
       name="upload"
-      label-idle="Drop files here..."
+      label-idle="Upload Markdown"
       :allow-multiple="false"
       accepted-file-types="text/markdown"
       @addfile="onAddFile"
