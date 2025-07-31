@@ -188,11 +188,11 @@ const filename = ref('')
           </div>
         </div>
       </div>
-      <div id="up-down-load">
+      <div id="split">
         <div></div>
         <div>
           <span>
-            <btn @click="downloadHTML(filename)" class="button-primary">Download Markdown</btn>
+            <button @click="downloadHTML(filename)" class="button-primary">Download Markdown</button>
             <input v-model="filename" placeholder="Enter Filename" />
           </span>
           <FilePond />
