@@ -1,47 +1,41 @@
 # Pandoc Markdown to HTML Converter
 
-## Project Setup
+## About
 
-  ```sh
-  npm install
-  ```
+This webpage allows you to convert Markdown you write or upload to HTML
+and download the HTML as a file.
 
-### Compile and Hot-Reload for Development
+## Component Overview
 
-  ```sh
-  npm run dev
-  ```
+App.vue
+└── MainView.vue
+    ├── SiteHeader.vue
+    │   ├── SiteSettings.vue
+    │   └── UpDownLoad.vue
+    │       ├── DownloadHTML.ts
+    │       │   └── PandocCall.ts
+    │       └── FilePond.vue
+    ├── InputField.vue
+    └── RenderField.vue
+        └── PandocCall.ts
 
-### Type-Check, Compile and Minify for Production
+## File Overview
 
-  ```sh
-  npm run build
-  ```
-
-### Lint with [ESLint](https://eslint.org/)
-
-  ```sh
-  npm run lint
-  ```
-
-## Requirements
-
-1. Convert from Markdown to HTML5
-2. Allow CSS styling for HTML 5
-3. Deploy to cloud
-
-### System Setup
-
-#### Frontend
-
-Built with Vue 3 and split into
-
-#### Backend
-
-Soft symbolic link named pandoc-server pointing to the pandoc executable.
-Alternatively you can also rename the pandoc executable to pandoc-server and use it directly instead.
-
-## TODO
-
-- [ ] Update html whenever a CSS variable is updated
-- Add functionality to download and upload files
+./src/
+├── App.vue
+├── assets
+│   ├── logo.jpg
+│   ├── logo.svg
+│   └── main.css
+├── components
+│   ├── FilePond.vue
+│   ├── InputField.vue
+│   ├── RenderField.vue
+│   └── SiteHeader.vue
+├── composables
+│   ├── DownloadHTML.ts
+│   └── ServerCall.ts
+├── main.ts
+├── MainView.vue
+└── stores
+    └── siteStatus.ts
