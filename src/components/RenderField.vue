@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { siteStatusStore } from '@/stores/siteStatus'
-import { markdownToHtml } from '@/composables/ServerCall'
+import { markdownToHtml } from '@/composables/PandocCall'
 import { storeToRefs } from 'pinia'
 
 const store = siteStatusStore()

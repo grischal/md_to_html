@@ -1,4 +1,4 @@
-import { markdownToHtml } from './ServerCall'
+import { markdownToHtml } from './PandocCall'
 
 function isSafe(str: string) {
   var code, i, len
