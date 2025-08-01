@@ -78,7 +78,6 @@ button {
     color 0.2s ease-in-out;
 }
 
-/*
 button:hover {
   background-color: var(--color-button);
   color: var(--color-text);
@@ -94,4 +93,3 @@ button:hover {
   color: var(--color-text);
   border: none;
 }
-*/
