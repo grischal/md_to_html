@@ -7,6 +7,7 @@ and download the HTML as a file.
 
 ## Component Overview
 
+```text
 App.vue
 └── MainView.vue
     ├── SiteHeader.vue
@@ -18,9 +19,11 @@ App.vue
     ├── InputField.vue
     └── RenderField.vue
         └── PandocCall.ts
+```
 
 ## File Overview
 
+```text
 ./src/
 ├── App.vue
 ├── assets
@@ -37,5 +40,6 @@ App.vue
 │   └── ServerCall.ts
 ├── main.ts
 ├── MainView.vue
-└── stores
-    └── siteStatus.ts
+└── stores\
+    └── siteStatus.ts\
+```
