@@ -5,7 +5,7 @@ export async function markdownToHtml() {
   const { markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
     siteStatusStore()
   try {
-    const response = await fetch(' http://localhost:3030', {
+    const response = await fetch('http://localhost:3030', {
       method: 'POST',
       body: JSON.stringify({
         text: markdown,
@@ -28,7 +28,7 @@ export async function markdownToHtml() {
       alert('Input could not be verified, please use a supported browser')
     }
     return `<body style="font-size:${fontSize}; font-family:${fontFamily};
-font-color:${fontColor}; line-height:${lineHeight}; letter-spacing:${letterSpacing};
+color:${fontColor}; line-height:${lineHeight}; letter-spacing:${letterSpacing};
 background-color:${backgroundColor}">${purifiedHtml}</body>`
   } catch (error) {
     if (error instanceof Error) {

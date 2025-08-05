@@ -88,7 +88,6 @@ button:hover {
 }
 
 .button-primary {
-  inherits: button;
   background-color: var(--color-button);
   color: var(--color-text);
   border: none;

@@ -1,14 +1,12 @@
 import { markdownToHtml } from './PandocCall'
 
 function isSafe(str: string) {
-  var code, i, len
-
-  for (i = 0, len = str.length; i < len; i++) {
-    code = str.charCodeAt(i)
+  for (let i = 0; i < str.length; i++) {
+    let code = str.charCodeAt(i)
     if (
-      !(code > 47 && code < 58) && // numeric (0-9)
-      !(code > 64 && code < 91) && // upper alpha (A-Z)
-      !(code > 96 && code < 123) && // lower alpha (a-z)
+      !(47 < code && code < 58) && // numeric (0-9)
+      !(64 < code && code < 91) && // upper alpha (A-Z)
+      !(96 < code && code < 123) && // lower alpha (a-z)
       !(code === 45 || code === 46 || code === 95) // characters _ and . and -
     ) {
       return false
@@ -18,16 +16,16 @@ function isSafe(str: string) {
 }
 
 export async function downloadHTML(filename: string) {
-  let fails_checks = false
-  const str_split = filename.split('.')
-  if (str_split.length === 2 || str_split.length === 1) {
-    isSafe(filename)
-  } else {
-    fails_checks = true
-  }
-  if (!filename || fails_checks) {
+  if (!filename || filename.length < 255 || !isSafe(filename)) {
     filename = 'md_to.html'
+    alert(
+      "Filename must only contain letters, numbers, and the characters '_', '-', and '.' while being less than 255 characters long",
+    )
   }
+  if (filename.length < 6 || filename.slice(-5) !== '.html') {
+    filename = filename + '.html'
+  }
+
   const html = await markdownToHtml()
 
   let blob = new Blob([html], { type: 'text/html' })
