@@ -86,12 +86,6 @@ const backgroundColors = ref([
   { name: 'Dark Grey', value: '#26292a' },
 ])
 
-const containerColor = ref(localStorage.getItem('containerColor') || '#f5f5f5')
-const containerColors = ref([
-  { name: 'light-gray', value: '#f5f5f5' },
-  { name: 'Dark Grey', value: '#26292a' },
-])
-
 const cssPropsAndLocalStorage = [
   ['--user-font-size', 'fontSize'],
   ['--user-font-family', 'fontFamily'],
@@ -116,9 +110,16 @@ watch(
   },
 )
 
+const containerColor = ref(localStorage.getItem('containerColor') || '#f5f5f5')
+const containerColors = ref([
+  { name: 'light-gray', value: '#f5f5f5' },
+  { name: 'Dark Grey', value: '#26292a' },
+])
+
 watch(containerColor, (newContainerColor, oldContainerColor) => {
   if (newContainerColor !== oldContainerColor) {
     document.documentElement.style.setProperty('--container-background', newContainerColor)
+    localStorage.setItem('containerColor', newContainerColor)
   }
 })
 </script>

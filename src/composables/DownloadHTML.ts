@@ -1,6 +1,6 @@
 import { markdownToHtml } from './PandocCall'
 
-function isSafe(str: string) {
+function isUnsafe(str: string) {
   for (let i = 0; i < str.length; i++) {
     let code = str.charCodeAt(i)
     if (
@@ -9,14 +9,14 @@ function isSafe(str: string) {
       !(96 < code && code < 123) && // lower alpha (a-z)
       !(code === 45 || code === 46 || code === 95) // characters _ and . and -
     ) {
-      return false
+      return true
     }
   }
-  return true
+  return false
 }
 
 export async function downloadHTML(filename: string) {
-  if (!filename || filename.length < 255 || !isSafe(filename)) {
+  if (!filename || filename.length > 255 || isUnsafe(filename)) {
     filename = 'md_to.html'
     alert(
       "Filename must only contain letters, numbers, and the characters '_', '-', and '.' while being less than 255 characters long",
@@ -30,8 +30,8 @@ export async function downloadHTML(filename: string) {
 
   let blob = new Blob([html], { type: 'text/html' })
   let anchor = document.createElement('a')
-  document.body.append(anchor)
-  anchor.style = 'display:none;'
+  anchor.style.display = 'none'
+  document.body.appendChild(anchor)
 
   let url = window.URL.createObjectURL(blob)
   anchor.href = url
@@ -39,4 +39,6 @@ export async function downloadHTML(filename: string) {
 
   anchor.click()
   window.URL.revokeObjectURL(url)
+
+  document.body.removeChild(anchor)
 }
