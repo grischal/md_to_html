@@ -10,13 +10,15 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "start": "serve -s dist"
   },
   "dependencies": {
     "dompurify": "^3.2.6",
     "filepond": "^4.32.8",
     "filepond-plugin-file-validate-type": "^1.2.9",
     "pinia": "^3.0.3",
+    "serve": "^14.2.4",
     "vue": "^3.5.17",
     "vue-filepond": "^7.0.4"
   },
