@@ -1,2 +1,1 @@
-pandoc: pandoc-server -p 3003
-web: npm start
+web: pandoc-server -p 3003 & npm start 
