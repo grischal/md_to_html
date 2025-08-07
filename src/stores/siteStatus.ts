@@ -9,6 +9,7 @@ export const siteStatusStore = defineStore('siteStatus', () => {
   const lineHeight = ref(localStorage.getItem('lineHeight') || '2')
   const letterSpacing = ref(localStorage.getItem('letterSpacing') || '0.1rem')
   const backgroundColor = ref(localStorage.getItem('backgroundColor') || '#FFE5B4')
+  const renderAllowed = ref(true)
 
   return {
     markdown,
@@ -18,5 +19,6 @@ export const siteStatusStore = defineStore('siteStatus', () => {
     lineHeight,
     letterSpacing,
     backgroundColor,
+    renderAllowed,
   }
 })

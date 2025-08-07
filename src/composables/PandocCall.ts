@@ -1,9 +1,13 @@
 import { siteStatusStore } from '@/stores/siteStatus'
+import { storeToRefs } from 'pinia'
 import DOMPurify from 'dompurify'
 
 export async function markdownToHtml() {
+  const store = siteStatusStore()
   const { markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
-    siteStatusStore()
+    store
+  const { renderAllowed } = storeToRefs(store)
+
   try {
     const response = await fetch('http://localhost:3030', {
       method: 'POST',
@@ -20,16 +24,22 @@ export async function markdownToHtml() {
     }
     const responseBody = await response.json()
 
-    let purifiedHtml = ''
-    if (DOMPurify.isSupported) {
-      purifiedHtml = DOMPurify.sanitize(responseBody.output)
-    } else {
-      purifiedHtml // WARN: IMPLEMENT BACKUP PLAN
-      alert('Input could not be verified, please use a supported browser')
+    const bodyStyle = `
+      font-size: ${fontSize};
+      font-family: ${fontFamily};
+      color: ${fontColor};
+      line-height: ${lineHeight};
+      letter-spacing: ${letterSpacing};
+      background-color: ${backgroundColor};
+    `
+    const sanitizedOutput = DOMPurify.isSupported
+      ? DOMPurify.sanitize(responseBody.output)
+      : responseBody.output
+
+    if (!DOMPurify.isSupported) {
+      renderAllowed.value = false
     }
-    return `<body style="font-size:${fontSize}; font-family:${fontFamily};
-color:${fontColor}; line-height:${lineHeight}; letter-spacing:${letterSpacing};
-background-color:${backgroundColor}">${purifiedHtml}</body>`
+    return `<body style="${bodyStyle}">${sanitizedOutput}</body>`
   } catch (error) {
     if (error instanceof Error) {
       console.log('error message:', error.message)

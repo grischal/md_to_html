@@ -5,8 +5,16 @@ import { markdownToHtml } from '@/composables/PandocCall'
 import { storeToRefs } from 'pinia'
 
 const store = siteStatusStore()
-const { markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
-  storeToRefs(store)
+const {
+  markdown,
+  renderAllowed,
+  fontSize,
+  fontFamily,
+  fontColor,
+  lineHeight,
+  letterSpacing,
+  backgroundColor,
+} = storeToRefs(store)
 
 const render = ref(true)
 const isFetching = ref(false)
@@ -29,8 +37,12 @@ watch(
   <div class="container-div">
     Render HTML
     <input type="checkbox" v-model="render" name="RenderHTML" />
+    <span v-if="!renderAllowed" style="font-style: italic">
+      Rendering not supported by browser</span
+    >
+
     <div class="inline-css">
-      <div v-if="render">
+      <div v-if="renderAllowed && render">
         <div v-if="isFetching" v-html="oldHTML" />
         <div v-else v-html="rawHTML" placeholder="HTML Renders Here" />
       </div>
