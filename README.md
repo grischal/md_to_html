@@ -5,6 +5,9 @@
 This webpage allows you to convert Markdown you write or upload to HTML
 and download the HTML as a file.
 
+It is built using Vue, along with [pandoc-server](https://pandoc.org/pandoc-server.html) as it's backend,
+hosted with Vite and deployed with Heroku at [site url](http://localhost:5173/). TODO add url
+
 ## Component Overview
 
 ```text

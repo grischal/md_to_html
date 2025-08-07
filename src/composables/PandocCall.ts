@@ -1,9 +1,13 @@
 import { siteStatusStore } from '@/stores/siteStatus'
+import { storeToRefs } from 'pinia'
 import DOMPurify from 'dompurify'
 
 export async function markdownToHtml() {
+  const store = siteStatusStore()
   const { markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
-    siteStatusStore()
+    store
+  const { renderAllowed } = storeToRefs(store)
+
   try {
     const response = await fetch('http://localhost:3030', {
       method: 'POST',
@@ -23,9 +27,10 @@ export async function markdownToHtml() {
     let purifiedHtml = ''
     if (DOMPurify.isSupported) {
       purifiedHtml = DOMPurify.sanitize(responseBody.output)
+      renderAllowed.value = true
     } else {
-      purifiedHtml // WARN: IMPLEMENT BACKUP PLAN
-      alert('Input could not be verified, please use a supported browser')
+      purifiedHtml = responseBody.output
+      renderAllowed.value = false
     }
     return `<body style="font-size:${fontSize}; font-family:${fontFamily};
 color:${fontColor}; line-height:${lineHeight}; letter-spacing:${letterSpacing};
