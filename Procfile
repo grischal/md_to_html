@@ -1,1 +1,2 @@
-web: pandoc-server -p 3003 & && npm start 
+pandoc: pandoc-server -p $PANDOCPORT
+web: npm start & pandoc-server -p $PORT
