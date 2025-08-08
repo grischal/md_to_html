@@ -2,9 +2,8 @@
 import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
 
-const store = siteStatusStore()
 const { markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
-  storeToRefs(store)
+  storeToRefs(siteStatusStore())
 </script>
 
 <template>
@@ -28,10 +27,5 @@ const { markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, ba
   line-height: v-bind(lineHeight);
   letter-spacing: v-bind(letterSpacing);
   background-color: v-bind(backgroundColor);
-  width: 100%;
-  height: 91%;
-  resize: none;
-  overflow-y: scroll;
-  padding-left: 15px;
 }
 </style>

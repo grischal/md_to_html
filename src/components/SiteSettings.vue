@@ -3,9 +3,8 @@ import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
 import { ref, watch } from 'vue'
 
-const store = siteStatusStore()
 const { fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
-  storeToRefs(store)
+  storeToRefs(siteStatusStore())
 
 const oldAP = localStorage.getItem('cssAffectPage')
 window.addEventListener('DOMContentLoaded', () => {

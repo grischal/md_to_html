@@ -32,12 +32,14 @@ export async function markdownToHtml() {
       letter-spacing: ${letterSpacing};
       background-color: ${backgroundColor};
     `
-    const sanitizedOutput = DOMPurify.isSupported
-      ? DOMPurify.sanitize(responseBody.output)
-      : responseBody.output
+    let sanitizedOutput
 
-    if (!DOMPurify.isSupported) {
+    if (DOMPurify.isSupported) {
+      sanitizedOutput = DOMPurify.sanitize(responseBody.output)
+    } else {
+      // Unsanitized output must never render within RenderField.vue
       renderAllowed.value = false
+      sanitizedOutput = responseBody.output
     }
     return `<body style="${bodyStyle}">${sanitizedOutput}</body>`
   } catch (error) {

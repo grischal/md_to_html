@@ -55,6 +55,16 @@ html {
   padding: 15px 45px;
 }
 
+.inline-css {
+  height: 91%;
+  width: 100%;
+  resize: none;
+  overflow-y: scroll;
+  padding-left: 15px;
+  overflow-x: auto;
+  word-break: break-word;
+}
+
 .dropdown {
   color: var(--color-text);
   padding: 4px 2px;
