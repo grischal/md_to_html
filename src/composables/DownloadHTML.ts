@@ -21,7 +21,7 @@ export async function downloadHTML(filename: string) {
     // TODO: Integrate alert further into site maybe with small
     // notification instead of an alert which you must press OK on
     alert(
-      "Filename must only contain letters, numbers, and the characters '_', '-', and '.' while being less than 255 characters long. \nChosen filename will be replaced with md_to.html",
+      "Filename must only contain letters, numbers, and the characters '_', '-', and '.', and must be less than 255 characters long. \nChosen filename will be replaced with md_to.html",
     )
   }
   if (filename.length < 6 || filename.slice(-5) !== '.html') {

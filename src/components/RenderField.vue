@@ -59,7 +59,7 @@ watch(
       </div>
       <div v-else>
         <div v-if="isFetching">
-          <!-- Fallback to make sure the promise object is not rendered to the user  -->
+          <!-- Fallback to make sure the promise object is not rendered to the user -->
           {{ oldHTML }}
         </div>
         <div v-else>
