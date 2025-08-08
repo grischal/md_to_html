@@ -9,7 +9,7 @@ export async function markdownToHtml() {
   const { renderAllowed } = storeToRefs(store)
 
   try {
-    const response = await fetch('http://localhost:3003', {
+    const response = await fetch('https://nd-pandoc-server-c44dc3ac3662.herokuapp.com/:3003', {
       method: 'POST',
       body: JSON.stringify({
         text: markdown,
