@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// Import Vue FilePond
 import vueFilePond from 'vue-filepond'
 import 'filepond/dist/filepond.min.css'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
@@ -9,8 +8,7 @@ import { ref, watch } from 'vue'
 
 const FilePond = vueFilePond(FilePondPluginFileValidateType)
 
-const store = siteStatusStore()
-const { markdown } = storeToRefs(store)
+const { markdown } = storeToRefs(siteStatusStore())
 
 const onAddFile = (error: any, fileItem: any) => {
   if (!error && fileItem && fileItem.file) {

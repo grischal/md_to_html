@@ -2,9 +2,8 @@
 import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
 
-const store = siteStatusStore()
 const { markdown, fontSize, fontFamily, fontColor, lineHeight, letterSpacing, backgroundColor } =
-  storeToRefs(store)
+  storeToRefs(siteStatusStore())
 </script>
 
 <template>
