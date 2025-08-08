@@ -4,7 +4,6 @@ import 'filepond/dist/filepond.min.css'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import { siteStatusStore } from '@/stores/siteStatus'
 import { storeToRefs } from 'pinia'
-import { ref, watch } from 'vue'
 
 const FilePond = vueFilePond(FilePondPluginFileValidateType)
 
